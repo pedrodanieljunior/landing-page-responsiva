@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)file:///C:/Users/pedrodanieljunior/Desktop/Betsegura/BetSegura.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetSegura - Análise Estatística de Futebol</title>
+    <meta name="description" content="Aplicação web para coleta e análise de dados estatísticos de partidas de futebol, com armazenamento persistente e cálculos automáticos">
+    <link href="./BetSegura - Análise Estatística de Futebol_files/tailwind.min.css" rel="stylesheet">
+    <script src="./BetSegura - Análise Estatística de Futebol_files/vue.global.js.download"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4 py-8" data-v-app=""><h1 class="text-3xl font-bold text-center mb-8 text-blue-600">BetSegura</h1><p class="text-center mb-4 text-gray-600 -mt-6">Análise Estatística de Futebol</p><div class="bg-white rounded-lg shadow-lg p-6 mb-8"><h2 class="text-xl font-bold mb-4">Cadastro de Partida</h2><form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4"><div class="form-group"><label class="block mb-2 font-medium">Jogo</label><input required="" class="w-full p-2 border rounded" placeholder="Ex: Flamengo x Vasco"></div><div class="form-group"><label class="block mb-2 font-medium">Campo</label><select required="" class="w-full p-2 border rounded"><option value="casa">Casa</option><option value="fora">Fora</option></select></div><div class="form-group"><label class="block mb-2 font-medium">Resultado</label><select required="" class="w-full p-2 border rounded"><option value="Vitória">Vitória</option><option value="Empate">Empate</option><option value="Derrota">Derrota</option></select></div><div class="form-group"><label class="block mb-2 font-medium">Dupla Chance</label><select required="" class="w-full p-2 border rounded"><option value="sim">Sim</option><option value="nao">Não</option></select></div><div class="form-group"><label class="block mb-2 font-medium">Gols da Partida</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Gols 1º T</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Gols 2º T</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Ambos Marcam</label><select required="" class="w-full p-2 border rounded"><option value="sim">Sim</option><option value="nao">Não</option></select></div><div class="form-group"><label class="block mb-2 font-medium">Escanteios</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Escanteios 1º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Escanteios 2º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Cartões</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Ambos Cartões</label><select required="" class="w-full p-2 border rounded"><option value="sim">Sim</option><option value="nao">Não</option></select></div><div class="form-group"><label class="block mb-2 font-medium">Finalizações</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Finalizações 1º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Finalizações 2º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Chutes ao Gol</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Chutes ao Gol 1º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Chutes ao Gol 2º HT</label><input type="number" min="0" required="" class="w-full p-2 border rounded"></div><div class="form-group"><label class="block mb-2 font-medium">Estilo</label><select required="" class="w-full p-2 border rounded"><option value="Eficiente">Eficiente</option><option value="OK">OK</option><option value="Safado">Safado</option></select></div><div class="col-span-full mt-4"><button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"> Salvar Dados </button><button type="button" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition ml-2"> Exportar para TXT </button><button type="button" class="bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600 transition ml-2"> Importar de TXT </button></div></form></div><div class="bg-white rounded-lg shadow-lg p-6 mb-8"><h2 class="text-xl font-bold mb-4">Filtros</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label class="block mb-2 font-medium">Campo</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="casa">Casa</option><option value="fora">Fora</option></select></div><div><label class="block mb-2 font-medium">Dupla Chance</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="sim">Sim</option><option value="nao">Não</option></select></div><div><label class="block mb-2 font-medium">Ambos Marcam</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="sim">Sim</option><option value="nao">Não</option></select></div><div><label class="block mb-2 font-medium">Resultado</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="Vitória">Vitória</option><option value="Empate">Empate</option><option value="Derrota">Derrota</option></select></div><div><label class="block mb-2 font-medium">Ambos Cartões</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="sim">Sim</option><option value="nao">Não</option></select></div><div><label class="block mb-2 font-medium">Estilo</label><select class="w-full p-2 border rounded"><option value="">Todos</option><option value="Eficiente">Eficiente</option><option value="OK">OK</option><option value="Safado">Safado</option></select></div></div></div><div class="bg-white rounded-lg shadow-lg p-6 mb-8 overflow-x-auto"><h2 class="text-xl font-bold mb-4">Dados Registrados <span class="text-gray-500 text-sm">(12 registros)</span></h2><table class="w-full border-collapse"><thead><tr class="bg-gray-100"><th class="p-2 text-left border">Jogo</th><th class="p-2 text-left border">Campo</th><th class="p-2 text-left border">Resultado</th><th class="p-2 text-left border">Dupla Chance</th><th class="p-2 text-left border">Gols da Partida</th><th class="p-2 text-left border">Gols 1º T</th><th class="p-2 text-left border">Gols 2º T</th><th class="p-2 text-left border">Ambos Marcam</th><th class="p-2 text-left border">Escanteios</th><th class="p-2 text-left border">Escanteios 1º HT</th><th class="p-2 text-left border">Escanteios 2º HT</th><th class="p-2 text-left border">Cartões</th><th class="p-2 text-left border">Ambos Cartões</th><th class="p-2 text-left border">Finalizações</th><th class="p-2 text-left border">Finalizações 1º HT</th><th class="p-2 text-left border">Finalizações 2º HT</th><th class="p-2 text-left border">Chutes ao Gol</th><th class="p-2 text-left border">Chutes ao Gol 1º HT</th><th class="p-2 text-left border">Chutes ao Gol 2º HT</th><th class="p-2 text-left border">Estilo</th><th class="p-2 text-left border">Ações</th></tr></thead><tbody><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X INT</td><td class="p-2 border">casa</td><td class="p-2 border">Empate</td><td class="p-2 border">sim</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">19</td><td class="p-2 border">6</td><td class="p-2 border">13</td><td class="p-2 border">5</td><td class="p-2 border">2</td><td class="p-2 border">3</td><td class="p-2 border">OK</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">VIT X FLA</td><td class="p-2 border">fora</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">2</td><td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">6</td><td class="p-2 border">2</td><td class="p-2 border">4</td><td class="p-2 border">0</td><td class="p-2 border">nao</td><td class="p-2 border">14</td><td class="p-2 border">6</td><td class="p-2 border">8</td><td class="p-2 border">7</td><td class="p-2 border">1</td><td class="p-2 border">6</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">GRE X FLA</td><td class="p-2 border">fora</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">2</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">nao</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">8</td><td class="p-2 border">3</td><td class="p-2 border">5</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X JUV</td><td class="p-2 border">casa</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">6</td><td class="p-2 border">3</td><td class="p-2 border">3</td><td class="p-2 border">nao</td><td class="p-2 border">6</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">18</td><td class="p-2 border">10</td><td class="p-2 border">8</td><td class="p-2 border">8</td><td class="p-2 border">4</td><td class="p-2 border">4</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">VAS X FLA</td><td class="p-2 border">fora</td><td class="p-2 border">Empate</td><td class="p-2 border">sim</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">nao</td><td class="p-2 border">6</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">17</td><td class="p-2 border">9</td><td class="p-2 border">8</td><td class="p-2 border">7</td><td class="p-2 border">4</td><td class="p-2 border">3</td><td class="p-2 border">Safado</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X COR</td><td class="p-2 border">casa</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">4</td><td class="p-2 border">3</td><td class="p-2 border">1</td><td class="p-2 border">nao</td><td class="p-2 border">10</td><td class="p-2 border">5</td><td class="p-2 border">5</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">17</td><td class="p-2 border">10</td><td class="p-2 border">7</td><td class="p-2 border">6</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">CRU X FLA</td><td class="p-2 border">fora</td><td class="p-2 border">Derrota</td><td class="p-2 border">nao</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">sim</td><td class="p-2 border">5</td><td class="p-2 border">5</td><td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">6</td><td class="p-2 border">3</td><td class="p-2 border">3</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">Safado</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X BAH</td><td class="p-2 border">casa</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">0</td><td class="p-2 border">nao</td><td class="p-2 border">8</td><td class="p-2 border">7</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">14</td><td class="p-2 border">10</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">1</td><td class="p-2 border">1</td><td class="p-2 border">OK</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X BOT</td><td class="p-2 border">casa</td><td class="p-2 border">Empate</td><td class="p-2 border">sim</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">0</td><td class="p-2 border">nao</td><td class="p-2 border">7</td><td class="p-2 border">3</td><td class="p-2 border">4</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">15</td><td class="p-2 border">8</td><td class="p-2 border">7</td><td class="p-2 border">3</td><td class="p-2 border">1</td><td class="p-2 border">2</td><td class="p-2 border">OK</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">PAL X FLA</td><td class="p-2 border">fora</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">2</td><td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">3</td><td class="p-2 border">1</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">7</td><td class="p-2 border">3</td><td class="p-2 border">4</td><td class="p-2 border">3</td><td class="p-2 border">1</td><td class="p-2 border">2</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X FOR</td><td class="p-2 border">casa</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">5</td><td class="p-2 border">1</td><td class="p-2 border">4</td><td class="p-2 border">nao</td><td class="p-2 border">2</td><td class="p-2 border">2</td><td class="p-2 border">0</td><td class="p-2 border">1</td><td class="p-2 border">sim</td><td class="p-2 border">16</td><td class="p-2 border">7</td><td class="p-2 border">9</td><td class="p-2 border">13</td><td class="p-2 border">4</td><td class="p-2 border">9</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><tr class="border-b hover:bg-gray-50"><td class="p-2 border">FLA X SP</td><td class="p-2 border">casa</td><td class="p-2 border">Vitória</td><td class="p-2 border">sim</td><td class="p-2 border">2</td><td class="p-2 border">0</td><td class="p-2 border">2</td><td class="p-2 border">nao</td><td class="p-2 border">7</td><td class="p-2 border">3</td><td class="p-2 border">4</td><td class="p-2 border">2</td><td class="p-2 border">sim</td><td class="p-2 border">22</td><td class="p-2 border">13</td><td class="p-2 border">9</td><td class="p-2 border">10</td><td class="p-2 border">6</td><td class="p-2 border">4</td><td class="p-2 border">Eficiente</td><td class="p-2 border"><button class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"> Remover </button></td></tr><!--v-if--></tbody></table></div><div class="bg-white rounded-lg shadow-lg p-6"><h2 class="text-xl font-bold mb-4">Estatísticas</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Gols da Partida</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">2.17</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">0</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">6</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Gols 1º T</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">0.83</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">0</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">3</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Gols 2º T</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">1.33</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">0</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">4</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Escanteios</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">5.67</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">2</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">10</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Escanteios 1º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">3.33</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">1</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">7</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Escanteios 2º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">2.33</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">0</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">5</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Cartões</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">1.42</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">0</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">2</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Finalizações</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">14.42</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">6</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">22</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Finalizações 1º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">7.33</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">3</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">13</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Finalizações 2º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">7.08</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">3</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">13</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Chutes ao Gol</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">6.00</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">2</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">13</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Chutes ao Gol 1º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">2.67</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">1</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">6</div></div></div></div><div class="bg-gray-50 p-4 rounded border"><h3 class="font-bold text-blue-600">Chutes ao Gol 2º HT</h3><div class="mt-2 grid grid-cols-3 gap-2"><div class="bg-blue-50 p-2 rounded"><div class="text-xs text-gray-500">Média</div><div class="font-bold">3.33</div></div><div class="bg-green-50 p-2 rounded"><div class="text-xs text-gray-500">Mínimo</div><div class="font-bold">1</div></div><div class="bg-red-50 p-2 rounded"><div class="text-xs text-gray-500">Máximo</div><div class="font-bold">9</div></div></div></div></div></div></div>
+
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const formData = ref({
+                    jogo: '',
+                    campo: 'casa',
+                    resultado: 'Vitória',
+                    duplaChance: 'nao',
+                    golsPartida: 0,
+                    gols1T: 0,
+                    gols2T: 0,
+                    ambosMarcam: 'nao',
+                    escanteios: 0,
+                    escanteios1HT: 0,
+                    escanteios2HT: 0,
+                    cartoes: 0,
+                    ambosCartoes: 'nao',
+                    finalizacoes: 0,
+                    finalizacoes1HT: 0,
+                    finalizacoes2HT: 0,
+                    chutesGol: 0,
+                    chutesGol1HT: 0,
+                    chutesGol2HT: 0,
+                    estilo: 'OK'
+                });
+
+                const dados = ref([]);
+                const filtros = ref({
+                    ambosMarcam: '',
+                    ambosCartoes: '',
+                    campo: '',
+                    resultado: '',
+                    estilo: '',
+                    duplaChance: ''
+                });
+
+                const campos = [
+                    { nome: 'jogo', label: 'Jogo', tipo: 'texto' },
+                    { nome: 'campo', label: 'Campo', tipo: 'select' },
+                    { nome: 'resultado', label: 'Resultado', tipo: 'select' },
+                    { nome: 'duplaChance', label: 'Dupla Chance', tipo: 'select' },
+                    { nome: 'golsPartida', label: 'Gols da Partida', tipo: 'numero' },
+                    { nome: 'gols1T', label: 'Gols 1º T', tipo: 'numero' },
+                    { nome: 'gols2T', label: 'Gols 2º T', tipo: 'numero' },
+                    { nome: 'ambosMarcam', label: 'Ambos Marcam', tipo: 'select' },
+                    { nome: 'escanteios', label: 'Escanteios', tipo: 'numero' },
+                    { nome: 'escanteios1HT', label: 'Escanteios 1º HT', tipo: 'numero' },
+                    { nome: 'escanteios2HT', label: 'Escanteios 2º HT', tipo: 'numero' },
+                    { nome: 'cartoes', label: 'Cartões', tipo: 'numero' },
+                    { nome: 'ambosCartoes', label: 'Ambos Cartões', tipo: 'select' },
+                    { nome: 'finalizacoes', label: 'Finalizações', tipo: 'numero' },
+                    { nome: 'finalizacoes1HT', label: 'Finalizações 1º HT', tipo: 'numero' },
+                    { nome: 'finalizacoes2HT', label: 'Finalizações 2º HT', tipo: 'numero' },
+                    { nome: 'chutesGol', label: 'Chutes ao Gol', tipo: 'numero' },
+                    { nome: 'chutesGol1HT', label: 'Chutes ao Gol 1º HT', tipo: 'numero' },
+                    { nome: 'chutesGol2HT', label: 'Chutes ao Gol 2º HT', tipo: 'numero' },
+                    { nome: 'estilo', label: 'Estilo', tipo: 'select' }
+                ];
+
+                const dadosFiltrados = computed(() => {
+                    return dados.value.filter(dado => {
+                        if (filtros.value.ambosMarcam && dado.ambosMarcam !== filtros.value.ambosMarcam) return false;
+                        if (filtros.value.ambosCartoes && dado.ambosCartoes !== filtros.value.ambosCartoes) return false;
+                        if (filtros.value.campo && dado.campo !== filtros.value.campo) return false;
+                        if (filtros.value.resultado && dado.resultado !== filtros.value.resultado) return false;
+                        if (filtros.value.estilo && dado.estilo !== filtros.value.estilo) return false;
+                        if (filtros.value.duplaChance && dado.duplaChance !== filtros.value.duplaChance) return false;
+                        return true;
+                    });
+                });
+
+                const estatisticas = computed(() => {
+                    const camposNumericos = campos.filter(c => c.tipo === 'numero');
+                    return camposNumericos.map(campo => {
+                        const valores = dadosFiltrados.value.map(d => Number(d[campo.nome]));
+                        return {
+                            nome: campo.nome,
+                            label: campo.label,
+                            media: valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : 0,
+                            minimo: valores.length ? Math.min(...valores) : 0,
+                            maximo: valores.length ? Math.max(...valores) : 0
+                        };
+                    });
+                });
+
+                const salvarDados = () => {
+                    dados.value.push({...formData.value});
+                    localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                    
+                    // Resetar formulário
+                    Object.keys(formData.value).forEach(key => {
+                        if (typeof formData.value[key] === 'number') {
+                            formData.value[key] = 0;
+                        } else if (key !== 'campo' && key !== 'estilo') {
+                            formData.value[key] = '';
+                        }
+                    });
+                    formData.value.campo = 'casa';
+                    formData.value.resultado = 'Vitória';
+                    formData.value.estilo = 'OK';
+                    formData.value.duplaChance = 'nao';
+                    formData.value.ambosMarcam = 'nao';
+                    formData.value.ambosCartoes = 'nao';
+                    
+                    alert('Dados salvos com sucesso!');
+                };
+
+                const removerDado = (index) => {
+                    if (confirm('Tem certeza que deseja remover este registro?')) {
+                        const dadoIndex = dados.value.indexOf(dadosFiltrados.value[index]);
+                        if (dadoIndex !== -1) {
+                            dados.value.splice(dadoIndex, 1);
+                            localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                            alert('Registro removido com sucesso!');
+                        }
+                    }
+                };
+
+                const exportarDados = () => {
+                    if (dados.value.length === 0) {
+                        alert('Não há dados para exportar!');
+                        return;
+                    }
+                    
+                    const dadosTexto = JSON.stringify(dados.value);
+                    const blob = new Blob([dadosTexto], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'betsegura_dados.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                };
+
+                const importarDados = () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.txt';
+                    
+                    input.onchange = e => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        
+                        const reader = new FileReader();
+                        reader.onload = event => {
+                            try {
+                                const dadosImportados = JSON.parse(event.target.result);
+                                if (Array.isArray(dadosImportados)) {
+                                    dados.value = dadosImportados;
+                                    localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                                    alert(`Importação concluída! ${dadosImportados.length} registros importados.`);
+                                } else {
+                                    throw new Error('Formato inválido');
+                                }
+                            } catch (error) {
+                                alert('Erro ao importar arquivo. Verifique se o formato está correto.');
+                                console.error(error);
+                            }
+                        };
+                        reader.readAsText(file);
+                    };
+                    
+                    input.click();
+                };
+
+                onMounted(() => {
+                    const dadosSalvos = localStorage.getItem('betSeguraDados');
+                    if (dadosSalvos) {
+                        try {
+                            dados.value = JSON.parse(dadosSalvos);
+                        } catch (e) {
+                            console.error('Erro ao carregar dados salvos:', e);
+                            localStorage.removeItem('betSeguraDados');
+                        }
+                    }
+                });
+
+                return {
+                    formData,
+                    dados,
+                    campos,
+                    filtros,
+                    dadosFiltrados,
+                    estatisticas,
+                    salvarDados,
+                    removerDado,
+                    exportarDados,
+                    importarDados
+                };
+            }
+        }).mount('#app');
+    </script>
+
+</body></html>
