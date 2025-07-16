@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetSegura - AnÃ¡lise EstatÃ­stica de Futebol</title>
+    <meta name="description" content="AplicaÃ§Ã£o web para coleta e anÃ¡lise de dados estatÃ­sticos de partidas de futebol, com armazenamento persistente e cÃ¡lculos automÃ¡ticos">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">BetSegura</h1>
+        <p class="text-center mb-4 text-gray-600 -mt-6">AnÃ¡lise EstatÃ­stica de Futebol</p>
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Cadastro de Partida</h2>
+            <form @submit.prevent="salvarDados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Jogo</label>
+                    <input v-model="formData.jogo" required class="w-full p-2 border rounded" placeholder="Ex: Flamengo x Vasco">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Campo</label>
+                    <select v-model="formData.campo" required class="w-full p-2 border rounded">
+                        <option value="casa">Casa</option>
+                        <option value="fora">Fora</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Resultado</label>
+                    <select v-model="formData.resultado" required class="w-full p-2 border rounded">
+                        <option value="VitÃ³ria">VitÃ³ria</option>
+                        <option value="Empate">Empate</option>
+                        <option value="Derrota">Derrota</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Dupla Chance</label>
+                    <select v-model="formData.duplaChance" required class="w-full p-2 border rounded">
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Gols da Partida</label>
+                    <input type="number" min="0" v-model.number="formData.golsPartida" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Gols 1Âº T</label>
+                    <input type="number" min="0" v-model.number="formData.gols1T" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Gols 2Âº T</label>
+                    <input type="number" min="0" v-model.number="formData.gols2T" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Ambos Marcam</label>
+                    <select v-model="formData.ambosMarcam" required class="w-full p-2 border rounded">
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Escanteios</label>
+                    <input type="number" min="0" v-model.number="formData.escanteios" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Escanteios 1Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.escanteios1HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Escanteios 2Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.escanteios2HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">CartÃµes</label>
+                    <input type="number" min="0" v-model.number="formData.cartoes" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Ambos CartÃµes</label>
+                    <select v-model="formData.ambosCartoes" required class="w-full p-2 border rounded">
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">FinalizaÃ§Ãµes</label>
+                    <input type="number" min="0" v-model.number="formData.finalizacoes" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">FinalizaÃ§Ãµes 1Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.finalizacoes1HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">FinalizaÃ§Ãµes 2Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.finalizacoes2HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Chutes ao Gol</label>
+                    <input type="number" min="0" v-model.number="formData.chutesGol" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Chutes ao Gol 1Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.chutesGol1HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Chutes ao Gol 2Âº HT</label>
+                    <input type="number" min="0" v-model.number="formData.chutesGol2HT" required class="w-full p-2 border rounded">
+                </div>
+                <div class="form-group">
+                    <label class="block mb-2 font-medium">Estilo</label>
+                    <select v-model="formData.estilo" required class="w-full p-2 border rounded">
+                        <option value="Eficiente">Eficiente</option>
+                        <option value="OK">OK</option>
+                        <option value="Safado">Safado</option>
+                    </select>
+                </div>
+                <div class="col-span-full mt-4">
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+                        Salvar Dados
+                    </button>
+                    <button type="button" @click="exportarDados" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition ml-2">
+                        Exportar para TXT
+                    </button>
+                    <button type="button" @click="importarDados" class="bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600 transition ml-2">
+                        Importar de TXT
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Filtros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block mb-2 font-medium">Campo</label>
+                    <select v-model="filtros.campo" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="casa">Casa</option>
+                        <option value="fora">Fora</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 font-medium">Dupla Chance</label>
+                    <select v-model="filtros.duplaChance" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 font-medium">Ambos Marcam</label>
+                    <select v-model="filtros.ambosMarcam" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 font-medium">Resultado</label>
+                    <select v-model="filtros.resultado" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="VitÃ³ria">VitÃ³ria</option>
+                        <option value="Empate">Empate</option>
+                        <option value="Derrota">Derrota</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 font-medium">Ambos CartÃµes</label>
+                    <select v-model="filtros.ambosCartoes" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">NÃ£o</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 font-medium">Estilo</label>
+                    <select v-model="filtros.estilo" class="w-full p-2 border rounded">
+                        <option value="">Todos</option>
+                        <option value="Eficiente">Eficiente</option>
+                        <option value="OK">OK</option>
+                        <option value="Safado">Safado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 overflow-x-auto">
+            <h2 class="text-xl font-bold mb-4">Dados Registrados <span class="text-gray-500 text-sm">({{ dadosFiltrados.length }} registros)</span></h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th v-for="campo in campos" :key="campo.nome" class="p-2 text-left border">{{ campo.label }}</th>
+                        <th class="p-2 text-left border">AÃ§Ãµes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(dado, index) in dadosFiltrados" :key="index" class="border-b hover:bg-gray-50">
+                        <td v-for="campo in campos" :key="campo.nome" class="p-2 border">
+                            {{ dado[campo.nome] }}
+                        </td>
+                        <td class="p-2 border">
+                            <button @click="removerDado(index)" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition">
+                                Remover
+                            </button>
+                        </td>
+                    </tr>
+                    <tr v-if="dadosFiltrados.length === 0">
+                        <td :colspan="campos.length + 1" class="p-4 text-center text-gray-500">
+                            Nenhum dado encontrado. Adicione um novo registro ou ajuste os filtros.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">EstatÃ­sticas</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div v-for="stat in estatisticas" :key="stat.nome" class="bg-gray-50 p-4 rounded border">
+                    <h3 class="font-bold text-blue-600">{{ stat.label }}</h3>
+                    <div class="mt-2 grid grid-cols-3 gap-2">
+                        <div class="bg-blue-50 p-2 rounded">
+                            <div class="text-xs text-gray-500">MÃ©dia</div>
+                            <div class="font-bold">{{ stat.media.toFixed(2) }}</div>
+                        </div>
+                        <div class="bg-green-50 p-2 rounded">
+                            <div class="text-xs text-gray-500">MÃ­nimo</div>
+                            <div class="font-bold">{{ stat.minimo }}</div>
+                        </div>
+                        <div class="bg-red-50 p-2 rounded">
+                            <div class="text-xs text-gray-500">MÃ¡ximo</div>
+                            <div class="font-bold">{{ stat.maximo }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const formData = ref({
+                    jogo: '',
+                    campo: 'casa',
+                    resultado: 'VitÃ³ria',
+                    duplaChance: 'nao',
+                    golsPartida: 0,
+                    gols1T: 0,
+                    gols2T: 0,
+                    ambosMarcam: 'nao',
+                    escanteios: 0,
+                    escanteios1HT: 0,
+                    escanteios2HT: 0,
+                    cartoes: 0,
+                    ambosCartoes: 'nao',
+                    finalizacoes: 0,
+                    finalizacoes1HT: 0,
+                    finalizacoes2HT: 0,
+                    chutesGol: 0,
+                    chutesGol1HT: 0,
+                    chutesGol2HT: 0,
+                    estilo: 'OK'
+                });
+
+                const dados = ref([]);
+                const filtros = ref({
+                    ambosMarcam: '',
+                    ambosCartoes: '',
+                    campo: '',
+                    resultado: '',
+                    estilo: '',
+                    duplaChance: ''
+                });
+
+                const campos = [
+                    { nome: 'jogo', label: 'Jogo', tipo: 'texto' },
+                    { nome: 'campo', label: 'Campo', tipo: 'select' },
+                    { nome: 'resultado', label: 'Resultado', tipo: 'select' },
+                    { nome: 'duplaChance', label: 'Dupla Chance', tipo: 'select' },
+                    { nome: 'golsPartida', label: 'Gols da Partida', tipo: 'numero' },
+                    { nome: 'gols1T', label: 'Gols 1Âº T', tipo: 'numero' },
+                    { nome: 'gols2T', label: 'Gols 2Âº T', tipo: 'numero' },
+                    { nome: 'ambosMarcam', label: 'Ambos Marcam', tipo: 'select' },
+                    { nome: 'escanteios', label: 'Escanteios', tipo: 'numero' },
+                    { nome: 'escanteios1HT', label: 'Escanteios 1Âº HT', tipo: 'numero' },
+                    { nome: 'escanteios2HT', label: 'Escanteios 2Âº HT', tipo: 'numero' },
+                    { nome: 'cartoes', label: 'CartÃµes', tipo: 'numero' },
+                    { nome: 'ambosCartoes', label: 'Ambos CartÃµes', tipo: 'select' },
+                    { nome: 'finalizacoes', label: 'FinalizaÃ§Ãµes', tipo: 'numero' },
+                    { nome: 'finalizacoes1HT', label: 'FinalizaÃ§Ãµes 1Âº HT', tipo: 'numero' },
+                    { nome: 'finalizacoes2HT', label: 'FinalizaÃ§Ãµes 2Âº HT', tipo: 'numero' },
+                    { nome: 'chutesGol', label: 'Chutes ao Gol', tipo: 'numero' },
+                    { nome: 'chutesGol1HT', label: 'Chutes ao Gol 1Âº HT', tipo: 'numero' },
+                    { nome: 'chutesGol2HT', label: 'Chutes ao Gol 2Âº HT', tipo: 'numero' },
+                    { nome: 'estilo', label: 'Estilo', tipo: 'select' }
+                ];
+
+                const dadosFiltrados = computed(() => {
+                    return dados.value.filter(dado => {
+                        if (filtros.value.ambosMarcam && dado.ambosMarcam !== filtros.value.ambosMarcam) return false;
+                        if (filtros.value.ambosCartoes && dado.ambosCartoes !== filtros.value.ambosCartoes) return false;
+                        if (filtros.value.campo && dado.campo !== filtros.value.campo) return false;
+                        if (filtros.value.resultado && dado.resultado !== filtros.value.resultado) return false;
+                        if (filtros.value.estilo && dado.estilo !== filtros.value.estilo) return false;
+                        if (filtros.value.duplaChance && dado.duplaChance !== filtros.value.duplaChance) return false;
+                        return true;
+                    });
+                });
+
+                const estatisticas = computed(() => {
+                    const camposNumericos = campos.filter(c => c.tipo === 'numero');
+                    return camposNumericos.map(campo => {
+                        const valores = dadosFiltrados.value.map(d => Number(d[campo.nome]));
+                        return {
+                            nome: campo.nome,
+                            label: campo.label,
+                            media: valores.length ? valores.reduce((a, b) => a + b, 0) / valores.length : 0,
+                            minimo: valores.length ? Math.min(...valores) : 0,
+                            maximo: valores.length ? Math.max(...valores) : 0
+                        };
+                    });
+                });
+
+                const salvarDados = () => {
+                    dados.value.push({...formData.value});
+                    localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                    
+                    // Resetar formulÃ¡rio
+                    Object.keys(formData.value).forEach(key => {
+                        if (typeof formData.value[key] === 'number') {
+                            formData.value[key] = 0;
+                        } else if (key !== 'campo' && key !== 'estilo') {
+                            formData.value[key] = '';
+                        }
+                    });
+                    formData.value.campo = 'casa';
+                    formData.value.resultado = 'VitÃ³ria';
+                    formData.value.estilo = 'OK';
+                    formData.value.duplaChance = 'nao';
+                    formData.value.ambosMarcam = 'nao';
+                    formData.value.ambosCartoes = 'nao';
+                    
+                    alert('Dados salvos com sucesso!');
+                };
+
+                const removerDado = (index) => {
+                    if (confirm('Tem certeza que deseja remover este registro?')) {
+                        const dadoIndex = dados.value.indexOf(dadosFiltrados.value[index]);
+                        if (dadoIndex !== -1) {
+                            dados.value.splice(dadoIndex, 1);
+                            localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                            alert('Registro removido com sucesso!');
+                        }
+                    }
+                };
+
+                const exportarDados = () => {
+                    if (dados.value.length === 0) {
+                        alert('NÃ£o hÃ¡ dados para exportar!');
+                        return;
+                    }
+                    
+                    const dadosTexto = JSON.stringify(dados.value);
+                    const blob = new Blob([dadosTexto], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'betsegura_dados.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                };
+
+                const importarDados = () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.txt';
+                    
+                    input.onchange = e => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        
+                        const reader = new FileReader();
+                        reader.onload = event => {
+                            try {
+                                const dadosImportados = JSON.parse(event.target.result);
+                                if (Array.isArray(dadosImportados)) {
+                                    dados.value = dadosImportados;
+                                    localStorage.setItem('betSeguraDados', JSON.stringify(dados.value));
+                                    alert(`ImportaÃ§Ã£o concluÃ­da! ${dadosImportados.length} registros importados.`);
+                                } else {
+                                    throw new Error('Formato invÃ¡lido');
+                                }
+                            } catch (error) {
+                                alert('Erro ao importar arquivo. Verifique se o formato estÃ¡ correto.');
+                                console.error(error);
+                            }
+                        };
+                        reader.readAsText(file);
+                    };
+                    
+                    input.click();
+                };
+
+                onMounted(() => {
+                    const dadosSalvos = localStorage.getItem('betSeguraDados');
+                    if (dadosSalvos) {
+                        try {
+                            dados.value = JSON.parse(dadosSalvos);
+                        } catch (e) {
+                            console.error('Erro ao carregar dados salvos:', e);
+                            localStorage.removeItem('betSeguraDados');
+                        }
+                    }
+                });
+
+                return {
+                    formData,
+                    dados,
+                    campos,
+                    filtros,
+                    dadosFiltrados,
+                    estatisticas,
+                    salvarDados,
+                    removerDado,
+                    exportarDados,
+                    importarDados
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
